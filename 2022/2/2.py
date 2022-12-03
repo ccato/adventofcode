@@ -11,8 +11,6 @@ def fixLine(line):
         return "%s %s" % (moves[0],wins.get(moves[0]))
 
 with open("input.txt") as file:
-    score = 0
     scoring = {'A X': 4,'A Y': 8,'A Z': 3,'B X': 1,'B Y': 5,'B Z': 9,'C X': 7,'C Y': 2,'C Z': 6 }
     lines = file.read()
-    lines = list(map(lambda x: fixLine(x), lines.split('\n')))
-    print(sum(list(map(lambda x: scoring.get(x), lines))))
+    print(sum(list(map(lambda x: scoring.get(x), list(map(lambda x: fixLine(x), lines.split('\n')))))))
