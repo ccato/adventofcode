@@ -7,7 +7,26 @@ def results(astack):
         print(stack)
         if stack:
             result += stack.pop()
-    return(result)
+    return (result)
+
+
+def movestacks(stackset: list, commandset: list, multiples=False) -> list:
+    for command in commandset:
+        amount = int(command[0])
+        fromstack = int(command[1])
+        tostack = int(command[2])
+        tempstack = []
+        if multiples is True:
+            for i in range(amount):
+                crate = stackset[fromstack].pop()
+                tempstack.append(crate)
+            tempstack.reverse()
+            stackset[tostack] += tempstack
+        else:
+            for i in range(amount):
+                crate = stackset[fromstack].pop()
+                stackset[tostack].append(crate)
+    return stackset
 
 
 with open("input.txt") as f:
@@ -33,24 +52,7 @@ with open("input.txt") as f:
         command = int(line.split(" ")[1]), int(line.split(" ")[3]), int(line.split(" ")[5].strip())
         commands.append(command)
 
-    for command in commands:
-        amount = int(command[0])
-        fromstack = int(command[1])
-        tostack = int(command[2])
-        for i in range(amount):
-            crate = s1[fromstack].pop()
-            s1[tostack].append(crate)
-
-    for command in commands:
-        tempstack = []
-        amount = int(command[0])
-        fromstack = int(command[1])
-        tostack = int(command[2])
-        for i in range(amount):
-            crate = s2[fromstack].pop()
-            tempstack.append(crate)
-        tempstack.reverse()
-        s2[tostack] += tempstack
-
+    s1 = movestacks(s1, commands)
+    s2 = movestacks(s2, commands, True)
     print(results(s1))
     print(results(s2))
